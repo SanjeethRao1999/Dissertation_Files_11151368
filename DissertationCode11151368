@@ -1,0 +1,63 @@
+% Read data from the text file
+data = dlmread('xf-naca64data.txt');
+
+% Extract columns
+alpha = data(:, 1);
+Cl = data(:, 2);
+Cd = data(:, 3);
+Cm = data(:, 5);
+Top_Xtr = data(:, 6);
+Bot_Xtr = data(:, 7);
+
+% Find the index of the maximum Cl value (stall point)
+[max_Cl, max_Cl_index] = max(Cl);
+
+% Create the subplots
+figure;
+
+% Cl vs. alpha with stall point
+subplot(2, 2, 1);
+plot(alpha, Cl, 'b-', 'LineWidth', 2);
+hold on;
+plot(alpha(max_Cl_index), max_Cl, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
+text(alpha(max_Cl_index) + 1, max_Cl, 'Stall', 'Color', 'r', 'FontSize', 12);
+xlabel('Angle of Attack (\alpha)');
+ylabel('Lift Coefficient (C_l)');
+title('Lift Coefficient vs. Angle of Attack (NACA 64215)');
+grid on;
+
+% Cd vs. alpha with stall point
+subplot(2, 2, 2);
+plot(alpha, Cd, 'r-', 'LineWidth', 2);
+hold on;
+plot(alpha(max_Cl_index), Cd(max_Cl_index), 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
+text(alpha(max_Cl_index) + 1, Cd(max_Cl_index), 'Stall', 'Color', 'r', 'FontSize', 12);
+xlabel('Angle of Attack (\alpha)');
+ylabel('Drag Coefficient (C_d)');
+title('Drag Coefficient vs. Angle of Attack (NACA 64215)');
+grid on;
+
+% Cm vs. alpha with stall point
+subplot(2, 2, 3);
+plot(alpha, Cm, 'g-', 'LineWidth', 2);
+hold on;
+plot(alpha(max_Cl_index), Cm(max_Cl_index), 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
+text(alpha(max_Cl_index) + 1, Cm(max_Cl_index), 'Stall', 'Color', 'r', 'FontSize', 12);
+xlabel('Angle of Attack (\alpha)');
+ylabel('Pitching Moment Coefficient (C_m)');
+title('Pitching Moment Coefficient vs. Angle of Attack (NACA 64215)');
+grid on;
+
+% Transition Points plot with stall point
+subplot(2, 2, 4);
+plot(alpha, Top_Xtr, 'b-', alpha, Bot_Xtr, 'r-', 'LineWidth', 2);
+hold on;
+plot(alpha(max_Cl_index), Top_Xtr(max_Cl_index), 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
+text(alpha(max_Cl_index) + 1, Top_Xtr(max_Cl_index), 'Stall', 'Color', 'r', 'FontSize', 12);
+xlabel('Angle of Attack (\alpha)');
+ylabel('Transition Point (X_{tr})');
+title('Boundary Layer Transition Points vs. Angle of Attack (NACA 64215)');
+legend('Upper Surface', 'Lower Surface');
+grid on;
+
+
